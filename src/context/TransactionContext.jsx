@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   collection,
   doc,
@@ -10,18 +11,21 @@ import {
   where,
   orderBy,
 } from "firebase/firestore";
+
+import { useAuth } from "./AuthContext";
 import { db } from "../config/firebase";
-import { useNavigate } from "react-router-dom";
 
 const TransactionContext = createContext();
 
 export function TransactionProvider({ children }) {
   const { user } = useAuth();
-  const [transactions, setTransactions] = useState([]);
+
   const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
 
   const fetchData = async () => {
     if (!user) {
+      toast.error("Not logged in!");
       return navigate("/login");
     }
     try {
@@ -39,7 +43,7 @@ export function TransactionProvider({ children }) {
       }));
       setTransactions(transactions);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   };
 
@@ -50,26 +54,28 @@ export function TransactionProvider({ children }) {
       try {
         await fetchData();
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        toast.error("Error fetching data");
+        console.log(error.message);
       }
     };
 
     fetchDataOnMount();
 
     return () => {
-      // Cleanup function: Set isMounted to false when the component is unmounted
       isMounted = false;
     };
   }, [user]);
 
   const addTransaction = async (data) => {
+    const newTransactions = [...transactions];
     try {
       const transactionsCollection = collection(db, "transactions");
       const docRef = await addDoc(transactionsCollection, data);
       fetchData();
-      console.log("Document written: ", docRef.id);
+      toast.success("New transaction added");
     } catch (error) {
-      console.error("Error adding document: ", error);
+      toast.error("Error adding document");
+      console.log(error.message);
     }
   };
 
@@ -83,10 +89,11 @@ export function TransactionProvider({ children }) {
     try {
       const docRef = doc(db, "transactions", id);
       deleteDoc(docRef).then(() => {
-        console.log("Document ", id, " deleted");
+        toast.success(`Document deleted`);
       });
     } catch (error) {
-      console.error(error);
+      toast.error("Error deleting document");
+      console.log(error);
     }
   };
 

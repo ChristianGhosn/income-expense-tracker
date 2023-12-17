@@ -26,51 +26,54 @@ const OutcomeCard = () => {
   }, [calculateMonthlyIncome, calculateMonthlyOutgoings]);
 
   return (
-    <section className="my-4">
+    <section className="my-4 w-full h-full">
       <h1 className="text-xl">Monthly Breakdown</h1>
-      <Bar
-        data={{
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          datasets: [
-            {
-              label: "Income",
-              data: incomeData,
-              backgroundColor: "green",
-              borderColor: "black",
-              borderWidth: 1,
-            },
-            {
-              label: "Outgoings",
-              data: outgoingsData,
-              backgroundColor: "red",
-              borderColor: "black",
-              borderWidth: 1,
-            },
-          ],
-        }}
-        options={{
-          scales: {
-            y: {
-              grid: {
-                drawOnChartArea: false,
+      <div className="h-full">
+        <Bar
+          height="220px"
+          data={{
+            labels: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            datasets: [
+              {
+                label: "Income",
+                data: incomeData,
+                backgroundColor: "green",
+                borderColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "Outgoings",
+                data: outgoingsData,
+                backgroundColor: "red",
+                borderColor: "black",
+                borderWidth: 1,
+              },
+            ],
+          }}
+          options={{
+            scales: {
+              y: {
+                grid: {
+                  drawOnChartArea: false,
+                },
               },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </div>
     </section>
   );
 };

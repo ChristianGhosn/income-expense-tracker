@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import { TransactionProvider } from "./context/TransactionContext";
 import ProtectedRoute from "./context/ProtectedRoute";
@@ -13,6 +14,7 @@ function App() {
   return (
     <div className="h-full overflow-hidden">
       <AuthProvider>
+        <Toaster />
         <TransactionProvider>
           <Navbar />
           <Routes>
