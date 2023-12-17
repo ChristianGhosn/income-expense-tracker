@@ -25,7 +25,6 @@ export function TransactionProvider({ children }) {
 
   const fetchData = async () => {
     if (!user) {
-      toast.error("Not logged in!");
       return navigate("/login");
     }
     try {
