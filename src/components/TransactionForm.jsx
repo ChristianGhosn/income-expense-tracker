@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
+import { useAuth } from "../context/AuthContext";
 import TransactionContext from "../context/TransactionContext";
 import calculateTax from "../utils/CalculateTax";
 
 const inputClasses =
-  "w-full md:w-min rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm";
+  "w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-royal-purple text-sm";
 
 const TransactionForm = () => {
   const { user } = useAuth();
@@ -39,7 +41,7 @@ const TransactionForm = () => {
       <h1 className="text-xl">New Transaction</h1>
       <form
         onSubmit={onSubmit}
-        className="flex gap-2 flex-wrap items-center justify-center w-full"
+        className="flex gap-2 flex-col items-center justify-center w-full"
       >
         <div className="flex gap-2 flex-wrap">
           <input
@@ -58,11 +60,10 @@ const TransactionForm = () => {
             onChange={(e) => setAmount(e.target.value)}
             className={inputClasses}
           />
-          <input
-            type="date"
-            value={date}
-            name="date"
-            onChange={(e) => setDate(e.target.value)}
+          <DatePicker
+            selected={date}
+            onChange={(newDate) => setDate(newDate)}
+            placeholderText="DD/MM/YYYY"
             className={inputClasses}
           />
           <input
@@ -76,7 +77,7 @@ const TransactionForm = () => {
         </div>
         <button
           type="submit"
-          className="bg-silver py-2 px-4 rounded-lg hover:bg-royal-purple hover:text-white md:w-fit sm:w-full"
+          className="bg-silver py-1.5 px-4 rounded-lg hover:bg-royal-purple hover:text-white w-full"
         >
           Add
         </button>

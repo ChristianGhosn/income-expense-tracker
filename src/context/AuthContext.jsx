@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
-
-const googleProvider = new GoogleAuthProvider();
+import toast from "react-hot-toast";
 
 import { auth } from "../config/firebase";
+
+const googleProvider = new GoogleAuthProvider();
 
 const AuthContext = createContext();
 
@@ -21,9 +22,10 @@ export function AuthProvider({ children }) {
     try {
       await signInWithPopup(auth, googleProvider);
       navigate("/");
+      toast.success("Logged in");
     } catch (error) {
-      console.error("Error signing in:", error.message);
-      // You might want to display an error message to the user.
+      toast.error("Error signing in");
+      console.log(error.message);
     }
   }
 
@@ -31,9 +33,10 @@ export function AuthProvider({ children }) {
     try {
       await signOut(auth);
       navigate("/login");
+      toast.success("Logged out");
     } catch (error) {
-      console.error("Error signing out:", error.message);
-      // You might want to display an error message to the user.
+      toast.error("Error signing out");
+      console.log(error.message);
     }
   }
 

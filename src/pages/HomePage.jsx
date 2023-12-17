@@ -6,11 +6,15 @@ import TransactionForm from "../components/TransactionForm";
 
 const HomePage = () => {
   return (
-    <div className="p-4">
-      <WelcomeCard />
-      <OutcomeCard />
-      <TransactionForm />
-      <TransactionList />
+    <div className="p-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
+      <div className="w-full h-full">
+        <WelcomeCard />
+        <OutcomeCard />
+      </div>
+      <div>
+        <TransactionForm />
+        <TransactionList />
+      </div>
     </div>
   );
 };
