@@ -6,8 +6,8 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="p-4 bg-royal-purple">
-      <div className="flex justify-between">
+    <nav className="py-2 px-4 bg-royal-purple">
+      <div className="flex justify-between items-center">
         <ul className="flex gap-4 justify-center text-white text-lg">
           {!user && (
             <li className="hover:text-mandarin">

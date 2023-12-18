@@ -10,11 +10,12 @@ import {
 } from "chart.js";
 
 import TransactionContext from "../context/TransactionContext";
+import { ThreeDots } from "react-loader-spinner";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip);
 
 const OutcomeCard = () => {
-  const { calculateMonthlyIncome, calculateMonthlyOutgoings } =
+  const { calculateMonthlyIncome, calculateMonthlyOutgoings, loading } =
     useContext(TransactionContext);
 
   const [incomeData, setIncomeData] = useState([]);
@@ -24,6 +25,21 @@ const OutcomeCard = () => {
     setIncomeData(calculateMonthlyIncome());
     setOutgoingsData(calculateMonthlyOutgoings());
   }, [calculateMonthlyIncome, calculateMonthlyOutgoings]);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="#8F659A"
+          ariaLabel="three-dots-loading"
+          visible={loading}
+        />
+      </div>
+    );
+  }
 
   return (
     <section className="my-4 w-full h-full">

@@ -22,6 +22,7 @@ export function TransactionProvider({ children }) {
 
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     if (!user) {
@@ -48,10 +49,11 @@ export function TransactionProvider({ children }) {
 
   useEffect(() => {
     let isMounted = true;
-
+    setLoading(true);
     const fetchDataOnMount = async () => {
       try {
         await fetchData();
+        setLoading(false);
       } catch (error) {
         toast.error("Error fetching data");
         console.log(error.message);
@@ -66,11 +68,12 @@ export function TransactionProvider({ children }) {
   }, [user]);
 
   const addTransaction = async (data) => {
-    const newTransactions = [...transactions];
+    setLoading(true);
     try {
       const transactionsCollection = collection(db, "transactions");
       const docRef = await addDoc(transactionsCollection, data);
       fetchData();
+      setLoading(false);
       toast.success("New transaction added");
     } catch (error) {
       toast.error("Error adding document");
@@ -79,6 +82,7 @@ export function TransactionProvider({ children }) {
   };
 
   const deleteTransaction = async (id) => {
+    setLoading(true);
     const updatedData = transactions.filter((expense) => {
       if (expense.id != id) {
         return expense;
@@ -90,6 +94,7 @@ export function TransactionProvider({ children }) {
       deleteDoc(docRef).then(() => {
         toast.success(`Document deleted`);
       });
+      setLoading(false);
     } catch (error) {
       toast.error("Error deleting document");
       console.log(error);
@@ -152,6 +157,7 @@ export function TransactionProvider({ children }) {
     <TransactionContext.Provider
       value={{
         transactions,
+        loading,
         addTransaction,
         deleteTransaction,
         calculateMonthlyIncome,

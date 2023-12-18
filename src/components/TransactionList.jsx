@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import TransactionContext from "../context/TransactionContext";
 import TransactionCard from "./TransactionCard";
+import { ThreeDots } from "react-loader-spinner";
 
 const TransactionList = () => {
-  const { transactions } = useContext(TransactionContext);
+  const { transactions, loading } = useContext(TransactionContext);
 
   const dates = transactions.map((transaction) => {
     return new Date(transaction.date.seconds * 1000).toDateString();
@@ -12,6 +13,21 @@ const TransactionList = () => {
   const dateList = dates.filter((element, index) => {
     return dates.indexOf(element) === index;
   });
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <ThreeDots
+          height="80"
+          width="80"
+          radius="9"
+          color="#8F659A"
+          ariaLabel="three-dots-loading"
+          visible={loading}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className=" my-4">
