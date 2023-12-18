@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { Bar } from "react-chartjs-2";
 import {
   CategoryScale,
@@ -10,7 +11,6 @@ import {
 } from "chart.js";
 
 import TransactionContext from "../context/TransactionContext";
-import { ThreeDots } from "react-loader-spinner";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip);
 
@@ -80,6 +80,15 @@ const OutcomeCard = () => {
             ],
           }}
           options={{
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: (tooltipItem) => {
+                    return `$ ${tooltipItem.formattedValue}`;
+                  },
+                },
+              },
+            },
             scales: {
               y: {
                 grid: {
