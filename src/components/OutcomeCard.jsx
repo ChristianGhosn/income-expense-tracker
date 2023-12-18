@@ -84,7 +84,7 @@ const OutcomeCard = () => {
               tooltip: {
                 callbacks: {
                   label: (tooltipItem) => {
-                    return `$ ${tooltipItem.formattedValue}`;
+                    return `$${tooltipItem.formattedValue}`;
                   },
                 },
               },
