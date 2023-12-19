@@ -1,10 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import toast from "react-hot-toast";
 
 import { auth } from "../config/firebase";
 import { ThreeDots } from "react-loader-spinner";
+import Loader from "../components/Loader";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -19,14 +27,33 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
 
-  async function login() {
+  async function signupWithEmail(email, password, displayName) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(auth.currentUser, { displayName });
+      navigate("/");
+    } catch (error) {
+      toast.error(`Error signing up: ${error.message}`);
+    }
+  }
+
+  async function loginWithEmail(email, password) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+      toast.success("Logged In");
+    } catch (error) {
+      toast.error(`Error signing in: ${error.message}`);
+    }
+  }
+
+  async function loginWithGoogle() {
     try {
       await signInWithPopup(auth, googleProvider);
       navigate("/");
       toast.success("Logged in");
     } catch (error) {
-      toast.error("Error signing in");
-      console.log(error.message);
+      toast.error(`Error signing in: ${error.message}`);
     }
   }
 
@@ -36,8 +63,7 @@ export function AuthProvider({ children }) {
       navigate("/login");
       toast.success("Logged out");
     } catch (error) {
-      toast.error("Error signing out");
-      console.log(error.message);
+      toast.error(`Error signing out: ${error.message}`);
     }
   }
 
@@ -50,21 +76,17 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const value = { user, login, logout, loading };
+  const value = {
+    user,
+    loginWithGoogle,
+    signupWithEmail,
+    loginWithEmail,
+    logout,
+    loading,
+  };
   return (
     <AuthContext.Provider value={value}>
-      {loading && (
-        <div className="h-screen w-full flex justify-center items-center">
-          <ThreeDots
-            height="80"
-            width="80"
-            radius="9"
-            color="#8F659A"
-            ariaLabel="three-dots-loading"
-            visible={loading}
-          />
-        </div>
-      )}
+      {loading && <Loader />}
 
       {!loading && children}
     </AuthContext.Provider>

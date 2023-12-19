@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <TransactionProvider>
           <Navbar />
           <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route
               path="/"
               element={
@@ -26,7 +29,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </TransactionProvider>
       </AuthProvider>

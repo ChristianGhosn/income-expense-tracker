@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
     if (!user) {
       return navigate("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return children;
 };

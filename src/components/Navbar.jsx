@@ -10,9 +10,14 @@ const Navbar = () => {
       <div className="flex justify-between items-center">
         <ul className="flex gap-4 justify-center text-white text-lg">
           {!user && (
-            <li className="hover:text-mandarin">
-              <Link to="/login">Login</Link>
-            </li>
+            <>
+              <li className="hover:text-mandarin">
+                <Link to="/login">Login</Link>
+              </li>
+              <li className="hover:text-mandarin">
+                <Link to="/signup">Sign Up</Link>
+              </li>
+            </>
           )}
           {user && (
             <li className="hover:text-mandarin">
@@ -20,7 +25,7 @@ const Navbar = () => {
             </li>
           )}
         </ul>
-        {user && (
+        {user && user.photoURL && (
           <div className="rounded-full overflow-hidden w-10 h-10">
             <img src={user?.photoURL} alt="profile" />
           </div>

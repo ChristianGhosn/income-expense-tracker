@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 
 import TransactionContext from "../context/TransactionContext";
+import Loader from "./Loader";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip);
 
@@ -27,18 +28,7 @@ const OutcomeCard = () => {
   }, [calculateMonthlyIncome, calculateMonthlyOutgoings]);
 
   if (loading) {
-    return (
-      <div className="h-screen w-full flex justify-center items-center">
-        <ThreeDots
-          height="80"
-          width="80"
-          radius="9"
-          color="#8F659A"
-          ariaLabel="three-dots-loading"
-          visible={loading}
-        />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
