@@ -12,7 +12,7 @@ const TransactionCard = ({ transaction }) => {
   };
 
   return (
-    <div className="relative w-full bg-silver flex gap-6 items-center p-4 rounded-lg overflow-hidden">
+    <div className="relative w-full bg-silver flex gap-6 items-center p-4 z-0 rounded-lg overflow-hidden">
       <div
         className={`absolute inset-y-0 left-0 w-2 ${
           transaction.amount > 0 ? "bg-green-600" : "bg-red-600"

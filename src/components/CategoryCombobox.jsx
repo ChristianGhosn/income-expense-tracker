@@ -63,7 +63,7 @@ const CategoryCombobox = ({ selectedCategory, setSelectedCategory }) => {
   }, [user]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full z-50">
       <Combobox value={selectedCategory} onChange={setSelectedCategory}>
         <Combobox.Input
           onChange={(e) => setSearchField(e.currentTarget.value)}
