@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import TransactionContext from "../context/TransactionContext";
 import TransactionCard from "./TransactionCard";
-import { ThreeDots } from "react-loader-spinner";
 import Loader from "./Loader";
 
 const TransactionList = () => {

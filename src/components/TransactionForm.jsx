@@ -11,6 +11,7 @@ import calculateTax from "../utils/CalculateTax";
 import validateForm from "../utils/ValidateForm";
 import Loader from "./Loader";
 import Input from "./Input";
+import CategoryCombobox from "./CategoryCombobox";
 
 const TransactionForm = () => {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ const TransactionForm = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState({});
   const [errors, setErrors] = useState({});
 
   const inputClasses = `w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-royal-purple text-sm`;
@@ -56,7 +57,7 @@ const TransactionForm = () => {
       name,
       amount: Number(amount),
       date: new Date(date),
-      category,
+      category: category.id,
       tax: tax.toString(),
     };
 
@@ -67,6 +68,7 @@ const TransactionForm = () => {
     }
 
     addTransaction(data);
+    setErrors({});
     setName("");
     setAmount("");
     setDate("");
@@ -95,7 +97,6 @@ const TransactionForm = () => {
                 onChange={(e) => setName(e.target.value)}
                 errors={errors}
               />
-
               <Input
                 type="number"
                 placeholder="Amount... (use '-' for Outgoings)"
@@ -115,13 +116,9 @@ const TransactionForm = () => {
               {errors["date"] && (
                 <span className="text-xs text-red-400">{errors["date"]}</span>
               )}
-              <Input
-                type="text"
-                placeholder="Category..."
-                value={category}
-                name="category"
-                onChange={(e) => setCategory(e.target.value)}
-                errors={errors}
+              <CategoryCombobox
+                selectedCategory={category}
+                setSelectedCategory={setCategory}
               />
             </fieldset>
             <button

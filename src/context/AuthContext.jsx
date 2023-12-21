@@ -11,7 +11,6 @@ import {
 import toast from "react-hot-toast";
 
 import { auth } from "../config/firebase";
-import { ThreeDots } from "react-loader-spinner";
 import Loader from "../components/Loader";
 
 const googleProvider = new GoogleAuthProvider();

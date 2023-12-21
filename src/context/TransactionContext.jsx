@@ -30,17 +30,36 @@ export function TransactionProvider({ children }) {
     }
     try {
       const transactionsCollection = collection(db, "transactions");
+      const categoriesCollection = collection(db, "categories");
+
       const q = query(
         transactionsCollection,
         where("user", "==", user.uid),
         orderBy("date", "desc")
       );
-      const snapshot = await getDocs(q);
+      const transactionsSnapshot = await getDocs(q);
 
-      const transactions = snapshot.docs.map((doc) => ({
+      let transactions = transactionsSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+
+      const categoriesSnapshot = await getDocs(categoriesCollection);
+
+      const categories = categoriesSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      transactions = transactions.map((transaction) => {
+        for (let category of categories) {
+          if (transaction.category === category.id) {
+            console.log({ ...transaction, category });
+            return { ...transaction, category };
+          }
+        }
+      });
+      console.log(transactions);
       setTransactions(transactions);
     } catch (error) {
       console.error(error.message);
