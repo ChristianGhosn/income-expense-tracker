@@ -28,7 +28,7 @@ const TransactionForm = () => {
 
   const schema = Joi.object({
     user: Joi.string().required(),
-    name: Joi.string().alphanum().required().messages({
+    name: Joi.string().required().messages({
       "any.required": "Name is required",
       "string.empty": "Name is empty",
     }),
